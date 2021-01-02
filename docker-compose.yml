@@ -17,13 +17,13 @@ services:
 
   n8n:
     container_name: n8n-app
-    image: n8nio/n8n
+    build: docker
     # Wait 5 seconds to start n8n to make sure that PostgreSQL is ready
     # when n8n tries to connect to it
     command: /bin/sh -c "sleep 5; n8n start"
     restart: always
-    ports:
-      - "5678:5678"
+    # ports:
+    #   - "5678:5678"
     environment:
       DB_TYPE: postgresdb
       DB_POSTGRESDB_HOST: postgres
@@ -34,8 +34,15 @@ services:
       N8N_BASIC_AUTH_ACTIVE: "true"
       N8N_BASIC_AUTH_USER: ${N8N_BASIC_AUTH_USER}
       N8N_BASIC_AUTH_PASSWORD: ${N8N_BASIC_AUTH_PASSWORD}
+      NODE_FUNCTION_ALLOW_BUILTIN: ${NODE_FUNCTION_ALLOW_BUILTIN}
+      GENERIC_TIMEZONE: ${GENERIC_TIMEZONE}
+      WEBHOOK_TUNNEL_URL: ${WEBHOOK_TUNNEL_URL}
+      VIRTUAL_HOST: ${VIRTUAL_HOST}
+      LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
     volumes:
       - ${DATA_DIR}/app:/root/.n8n
+      - ${DATA_DIR}/data:/data
 
 networks:
   default:

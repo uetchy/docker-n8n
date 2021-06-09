@@ -37,12 +37,14 @@ services:
       WEBHOOK_TUNNEL_URL: ${WEBHOOK_TUNNEL_URL}
       VIRTUAL_HOST: ${VIRTUAL_HOST}
       LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
-      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
     volumes:
       - ${DATA_DIR}/app:/root/.n8n
       - ${DATA_DIR}/data:/data
+    networks:
+      - default
+      - webproxy
 
 networks:
-  default:
-    external:
-      name: ${NETWORK:-webproxy}
+  webproxy:
+    name: ${NETWORK:-webproxy}
+    external: true

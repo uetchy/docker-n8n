@@ -3,7 +3,7 @@ version: "3.1"
 services:
   postgres:
     image: postgres:11-alpine
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_DB: n8n
       POSTGRES_USER: root
@@ -19,7 +19,7 @@ services:
     # Wait 5 seconds to start n8n to make sure that PostgreSQL is ready
     # when n8n tries to connect to it
     command: /bin/sh -c "sleep 5; n8n start"
-    restart: always
+    restart: unless-stopped
     # ports:
     #   - "5678:5678"
     environment:
@@ -43,6 +43,8 @@ services:
     networks:
       - default
       - webproxy
+    depends_on:
+      - postgres
 
 networks:
   webproxy:

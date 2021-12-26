@@ -1,3 +1,5 @@
+update: pull build start
+
 start:
 	docker-compose up -d
 
@@ -7,9 +9,11 @@ stop:
 pull:
 	docker-compose pull
 
+build:
+	docker-compose build --pull
+
 git-update:
 	git pull --rebase
 
 restart: stop start
 
-update: stop git-update pull start
